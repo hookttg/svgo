@@ -528,7 +528,7 @@ func (svg *SVG) Fend() {
 
 // FeBlend specifies a Blend filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feBlendElement
-func (svg *SVG) FeBlend(fs Filterspec, mode string,attrs string, s ...string) {
+func (svg *SVG) FeBlend(fs Filterspec, mode string, attrs string, s ...string) {
 	switch mode {
 	case "normal", "multiply", "screen", "darken", "lighten":
 		break
@@ -536,13 +536,13 @@ func (svg *SVG) FeBlend(fs Filterspec, mode string,attrs string, s ...string) {
 		mode = "normal"
 	}
 	svg.printf(`<feBlend %s %s mode="%s" %s`,
-	attrs,fsattr(fs), mode, endstyle(s, emptyclose))
+		attrs, fsattr(fs), mode, endstyle(s, emptyclose))
 }
 
 // FeColorMatrix specifies a color matrix filter primitive, with matrix values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
-func (svg *SVG) FeColorMatrix(fs Filterspec, values [20]float64,attrs string, s ...string) {
-	svg.printf(`<feColorMatrix %s %s type="matrix" values="`,attrs, fsattr(fs))
+func (svg *SVG) FeColorMatrix(fs Filterspec, values [20]float64, attrs string, s ...string) {
+	svg.printf(`<feColorMatrix %s %s type="matrix" values="`, attrs, fsattr(fs))
 	for _, v := range values {
 		svg.printf(`%g `, v)
 	}
@@ -551,29 +551,29 @@ func (svg *SVG) FeColorMatrix(fs Filterspec, values [20]float64,attrs string, s 
 
 // FeColorMatrixHue specifies a color matrix filter primitive, with hue rotation values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
-func (svg *SVG) FeColorMatrixHue(fs Filterspec, value float64,attrs string, s ...string) {
+func (svg *SVG) FeColorMatrixHue(fs Filterspec, value float64, attrs string, s ...string) {
 	if value < -360 || value > 360 {
 		value = 0
 	}
 	svg.printf(`<feColorMatrix %s %s type="hueRotate" values="%g" %s`,
-	attrs,fsattr(fs), value, endstyle(s, emptyclose))
+		attrs, fsattr(fs), value, endstyle(s, emptyclose))
 }
 
 // FeColorMatrixSaturate specifies a color matrix filter primitive, with saturation values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
-func (svg *SVG) FeColorMatrixSaturate(fs Filterspec, value float64,attrs string, s ...string) {
+func (svg *SVG) FeColorMatrixSaturate(fs Filterspec, value float64, attrs string, s ...string) {
 	if value < 0 || value > 1 {
 		value = 1
 	}
 	svg.printf(`<feColorMatrix %s %s type="saturate" values="%g" %s`,
-	attrs,fsattr(fs), value, endstyle(s, emptyclose))
+		attrs, fsattr(fs), value, endstyle(s, emptyclose))
 }
 
 // FeColorMatrixLuminence specifies a color matrix filter primitive, with luminence values
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement
-func (svg *SVG) FeColorMatrixLuminence(fs Filterspec,attrs string, s ...string) {
+func (svg *SVG) FeColorMatrixLuminence(fs Filterspec, attrs string, s ...string) {
 	svg.printf(`<feColorMatrix %s %s type="luminenceToAlpha" %s`,
-	attrs,fsattr(fs), endstyle(s, emptyclose))
+		attrs, fsattr(fs), endstyle(s, emptyclose))
 }
 
 // FeComponentTransfer begins a feComponent filter element
@@ -590,7 +590,7 @@ func (svg *SVG) FeCompEnd() {
 
 // FeComposite specifies a feComposite filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feCompositeElement
-func (svg *SVG) FeComposite(fs Filterspec, operator string, k1, k2, k3, k4 int,attrs string, s ...string) {
+func (svg *SVG) FeComposite(fs Filterspec, operator string, k1, k2, k3, k4 int, attrs string, s ...string) {
 	switch operator {
 	case "over", "in", "out", "atop", "xor", "arithmetic":
 		break
@@ -598,15 +598,15 @@ func (svg *SVG) FeComposite(fs Filterspec, operator string, k1, k2, k3, k4 int,a
 		operator = "over"
 	}
 	svg.printf(`<feComposite %s %s operator="%s" k1="%d" k2="%d" k3="%d" k4="%d" %s`,
-	attrs,fsattr(fs), operator, k1, k2, k3, k4, endstyle(s, emptyclose))
+		attrs, fsattr(fs), operator, k1, k2, k3, k4, endstyle(s, emptyclose))
 }
 
 // FeConvolveMatrix specifies a feConvolveMatrix filter primitive
 // Standard referencd: http://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement
-func (svg *SVG) FeConvolveMatrix(fs Filterspec, matrix [9]int,attrs string, s ...string) {
+func (svg *SVG) FeConvolveMatrix(fs Filterspec, matrix [9]int, attrs string, s ...string) {
 	svg.printf(`<feConvolveMatrix %s %s kernelMatrix="%d %d %d %d %d %d %d %d %d" %s`,
-	attrs,
-	fsattr(fs),
+		attrs,
+		fsattr(fs),
 		matrix[0], matrix[1], matrix[2],
 		matrix[3], matrix[4], matrix[5],
 		matrix[6], matrix[7], matrix[8], endstyle(s, emptyclose))
@@ -615,9 +615,9 @@ func (svg *SVG) FeConvolveMatrix(fs Filterspec, matrix [9]int,attrs string, s ..
 // FeDiffuseLighting specifies a diffuse lighting filter primitive,
 // a container for light source elements, end with DiffuseEnd()
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement
-func (svg *SVG) FeDiffuseLighting(fs Filterspec, scale, constant float64,attrs string, s ...string) {
+func (svg *SVG) FeDiffuseLighting(fs Filterspec, scale, constant float64, attrs string, s ...string) {
 	svg.printf(`<feDiffuseLighting %s %s surfaceScale="%g" diffuseConstant="%g" %s`,
-	attrs,fsattr(fs), scale, constant, endstyle(s, `>`))
+		attrs, fsattr(fs), scale, constant, endstyle(s, `>`))
 }
 
 // FeDiffEnd ends a diffuse lighting filter primitive container
@@ -628,23 +628,23 @@ func (svg *SVG) FeDiffEnd() {
 
 // FeDisplacementMap specifies a feDisplacementMap filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feDisplacementMapElement
-func (svg *SVG) FeDisplacementMap(fs Filterspec, scale float64, xchannel, ychannel string,attrs string, s ...string) {
+func (svg *SVG) FeDisplacementMap(fs Filterspec, scale float64, xchannel, ychannel string, attrs string, s ...string) {
 	svg.printf(`<feDisplacementMap %s %s scale="%g" xChannelSelector="%s" yChannelSelector="%s" %s`,
-	attrs,fsattr(fs), scale, imgchannel(xchannel), ychannel, endstyle(s, emptyclose))
+		attrs, fsattr(fs), scale, imgchannel(xchannel), ychannel, endstyle(s, emptyclose))
 }
 
 // FeDistantLight specifies a feDistantLight filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feDistantLightElement
-func (svg *SVG) FeDistantLight(fs Filterspec, azimuth, elevation float64,attrs string, s ...string) {
+func (svg *SVG) FeDistantLight(fs Filterspec, azimuth, elevation float64, attrs string, s ...string) {
 	svg.printf(`<feDistantLight %s %s azimuth="%g" elevation="%g" %s`,
-	attrs,fsattr(fs), azimuth, elevation, endstyle(s, emptyclose))
+		attrs, fsattr(fs), azimuth, elevation, endstyle(s, emptyclose))
 }
 
 // FeFlood specifies a flood filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feFloodElement
-func (svg *SVG) FeFlood(fs Filterspec, color string, opacity float64,attrs string, s ...string) {
+func (svg *SVG) FeFlood(fs Filterspec, color string, opacity float64, attrs string, s ...string) {
 	svg.printf(`<feFlood %s %s flood-color="%s" flood-opacity="%g" %s`,
-	attrs,fsattr(fs), color, opacity, endstyle(s, emptyclose))
+		attrs, fsattr(fs), color, opacity, endstyle(s, emptyclose))
 }
 
 // FeFunc{linear|Gamma|Table|Discrete} specify various types of feFunc{R|G|B|A} filter primitives
@@ -680,7 +680,7 @@ func (svg *SVG) FeFuncDiscrete(channel string, tv []float64) {
 
 // FeGaussianBlur specifies a Gaussian Blur filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement
-func (svg *SVG) FeGaussianBlur(fs Filterspec, stdx, stdy float64,attrs string, s ...string) {
+func (svg *SVG) FeGaussianBlur(fs Filterspec, stdx, stdy float64, attrs string, s ...string) {
 	if stdx < 0 {
 		stdx = 0
 	}
@@ -688,19 +688,19 @@ func (svg *SVG) FeGaussianBlur(fs Filterspec, stdx, stdy float64,attrs string, s
 		stdy = 0
 	}
 	svg.printf(`<feGaussianBlur %s %s stdDeviation="%g %g" %s`,
-	attrs,fsattr(fs), stdx, stdy, endstyle(s, emptyclose))
+		attrs, fsattr(fs), stdx, stdy, endstyle(s, emptyclose))
 }
 
 // FeImage specifies a feImage filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feImageElement
-func (svg *SVG) FeImage(href string, result string,attrs string, s ...string) {
+func (svg *SVG) FeImage(href string, result string, attrs string, s ...string) {
 	svg.printf(`<feImage %s xlink:href="%s" result="%s" %s`,
-	attrs,href, result, endstyle(s, emptyclose))
+		attrs, href, result, endstyle(s, emptyclose))
 }
 
 // FeMerge specifies a feMerge filter primitive, containing feMerge elements
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feMergeElement
-func (svg *SVG) FeMerge(nodes []string,s ...string) {
+func (svg *SVG) FeMerge(nodes []string, s ...string) {
 	svg.println(`<feMerge>`)
 	for _, n := range nodes {
 		svg.printf("<feMergeNode in=\"%s\"/>\n", n)
@@ -710,7 +710,7 @@ func (svg *SVG) FeMerge(nodes []string,s ...string) {
 
 // FeMorphology specifies a feMorphologyLight filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feMorphologyElement
-func (svg *SVG) FeMorphology(fs Filterspec, operator string, xradius, yradius float64,attrs string, s ...string) {
+func (svg *SVG) FeMorphology(fs Filterspec, operator string, xradius, yradius float64, attrs string, s ...string) {
 	switch operator {
 	case "erode", "dilate":
 		break
@@ -718,29 +718,29 @@ func (svg *SVG) FeMorphology(fs Filterspec, operator string, xradius, yradius fl
 		operator = "erode"
 	}
 	svg.printf(`<feMorphology %s %s operator="%s" radius="%g %g" %s`,
-	attrs,fsattr(fs), operator, xradius, yradius, endstyle(s, emptyclose))
+		attrs, fsattr(fs), operator, xradius, yradius, endstyle(s, emptyclose))
 }
 
 // FeOffset specifies the feOffset filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feOffsetElement
-func (svg *SVG) FeOffset(fs Filterspec, dx, dy int,attrs string, s ...string) {
+func (svg *SVG) FeOffset(fs Filterspec, dx, dy int, attrs string, s ...string) {
 	svg.printf(`<feOffset %s %s dx="%d" dy="%d" %s`,
-	attrs,fsattr(fs), dx, dy, endstyle(s, emptyclose))
+		attrs, fsattr(fs), dx, dy, endstyle(s, emptyclose))
 }
 
 // FePointLight specifies a fePpointLight filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#fePointLightElement
-func (svg *SVG) FePointLight(x, y, z float64,attrs string, s ...string) {
+func (svg *SVG) FePointLight(x, y, z float64, attrs string, s ...string) {
 	svg.printf(`<fePointLight %s x="%g" y="%g" z="%g" %s`,
-	attrs,x, y, z, endstyle(s, emptyclose))
+		attrs, x, y, z, endstyle(s, emptyclose))
 }
 
 // FeSpecularLighting specifies a specular lighting filter primitive,
 // a container for light source elements, end with SpecularEnd()
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement
-func (svg *SVG) FeSpecularLighting(fs Filterspec, scale, constant float64, exponent int, color string,attrs string, s ...string) {
+func (svg *SVG) FeSpecularLighting(fs Filterspec, scale, constant float64, exponent int, color string, attrs string, s ...string) {
 	svg.printf(`<feSpecularLighting %s %s surfaceScale="%g" specularConstant="%g" specularExponent="%d" lighting-color="%s" %s`,
-	attrs,fsattr(fs), scale, constant, exponent, color, endstyle(s, ">\n"))
+		attrs, fsattr(fs), scale, constant, exponent, color, endstyle(s, ">\n"))
 }
 
 // FeSpecEnd ends a specular lighting filter primitive container
@@ -751,20 +751,20 @@ func (svg *SVG) FeSpecEnd() {
 
 // FeSpotLight specifies a feSpotLight filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feSpotLightElement
-func (svg *SVG) FeSpotLight(fs Filterspec, x, y, z, px, py, pz float64,attrs string, s ...string) {
+func (svg *SVG) FeSpotLight(fs Filterspec, x, y, z, px, py, pz float64, attrs string, s ...string) {
 	svg.printf(`<feSpotLight %s %s x="%g" y="%g" z="%g" pointsAtX="%g" pointsAtY="%g" pointsAtZ="%g" %s`,
-	attrs,fsattr(fs), x, y, z, px, py, pz, endstyle(s, emptyclose))
+		attrs, fsattr(fs), x, y, z, px, py, pz, endstyle(s, emptyclose))
 }
 
 // FeTile specifies the tile utility filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feTileElement
-func (svg *SVG) FeTile(fs Filterspec, in string,attrs string, s ...string) {
-	svg.printf(`<feTile %s %s %s`,attrs, fsattr(fs), endstyle(s, emptyclose))
+func (svg *SVG) FeTile(fs Filterspec, in string, attrs string, s ...string) {
+	svg.printf(`<feTile %s %s %s`, attrs, fsattr(fs), endstyle(s, emptyclose))
 }
 
 // FeTurbulence specifies a turbulence filter primitive
 // Standard reference: http://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement
-func (svg *SVG) FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octaves int, seed int64, stitch bool,attrs string, s ...string) {
+func (svg *SVG) FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octaves int, seed int64, stitch bool, attrs string, s ...string) {
 	if bfx < 0 || bfx > 1 {
 		bfx = 0
 	}
@@ -855,60 +855,60 @@ func (svg *SVG) Sepia() {
 // The animation starts at coordinate from, terminates at to, and repeats as specified
 func (svg *SVG) Animate(link, attr string, from, to int, duration float64, repeat int, attrs string, s ...string) {
 	svg.printf(`<animate %s %s attributeName="%s" from="%d" to="%d" dur="%gs" repeatCount="%s" %s`,
-	attrs,href(link), attr, from, to, duration, repeatString(repeat), endstyle(s, emptyclose))
+		attrs, href(link), attr, from, to, duration, repeatString(repeat), endstyle(s, emptyclose))
 }
 
 // AnimateMotion animates the referenced object along the specified path
 func (svg *SVG) AnimateMotion(link, path string, duration float64, repeat int, attrs string, s ...string) {
 	svg.printf(`<animateMotion %s %s dur="%gs" repeatCount="%s" %s<mpath %s/></animateMotion>
-`, attrs,href(link), duration, repeatString(repeat), endstyle(s, ">"), href(path))
+`, attrs, href(link), duration, repeatString(repeat), endstyle(s, ">"), href(path))
 }
 
 // AnimateTransform animates in the context of SVG transformations
 func (svg *SVG) AnimateTransform(link, ttype, from, to string, duration float64, repeat int, attrs string, s ...string) {
 	svg.printf(`<animateTransform %s %s attributeName="transform" type="%s" from="%s" to="%s" dur="%gs" repeatCount="%s" %s`,
-	attrs,href(link), ttype, from, to, duration, repeatString(repeat), endstyle(s, emptyclose))
+		attrs, href(link), ttype, from, to, duration, repeatString(repeat), endstyle(s, emptyclose))
 }
 
 // AnimateTranslate animates the translation transformation
 func (svg *SVG) AnimateTranslate(link string, fx, fy, tx, ty int, duration float64, repeat int, attrs string, s ...string) {
-	svg.AnimateTransform(link, "translate", coordpair(fx, fy), coordpair(tx, ty), duration, repeat,attrs, s...)
+	svg.AnimateTransform(link, "translate", coordpair(fx, fy), coordpair(tx, ty), duration, repeat, attrs, s...)
 }
 
 // AnimateRotate animates the rotation transformation
 func (svg *SVG) AnimateRotate(link string, fs, fc, fe, ts, tc, te int, duration float64, repeat int, attrs string, s ...string) {
-	svg.AnimateTransform(link, "rotate", sce(fs, fc, fe), sce(ts, tc, te), duration, repeat,attrs, s...)
+	svg.AnimateTransform(link, "rotate", sce(fs, fc, fe), sce(ts, tc, te), duration, repeat, attrs, s...)
 }
 
 // AnimateScale animates the scale transformation
 func (svg *SVG) AnimateScale(link string, from, to, duration float64, repeat int, attrs string, s ...string) {
-	svg.AnimateTransform(link, "scale", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat,attrs, s...)
+	svg.AnimateTransform(link, "scale", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat, attrs, s...)
 }
 
 // AnimateSkewX animates the skewX transformation
 func (svg *SVG) AnimateSkewX(link string, from, to, duration float64, repeat int, attrs string, s ...string) {
-	svg.AnimateTransform(link, "skewX", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat,attrs, s...)
+	svg.AnimateTransform(link, "skewX", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat, attrs, s...)
 }
 
 // AnimateSkewY animates the skewY transformation
 func (svg *SVG) AnimateSkewY(link string, from, to, duration float64, repeat int, attrs string, s ...string) {
-	svg.AnimateTransform(link, "skewY", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat,attrs, s...)
+	svg.AnimateTransform(link, "skewY", fmt.Sprintf("%g", from), fmt.Sprintf("%g", to), duration, repeat, attrs, s...)
 }
 
 // Utility
 
 // Grid draws a grid at the specified coordinate, dimensions, and spacing, with optional style.
-func (svg *SVG) Grid(x int, y int, w int, h int, n int,attrs string s ...string) {
+func (svg *SVG) Grid(x int, y int, w int, h int, n int, attrs string, s ...string) {
 
 	if len(s) > 0 {
 		svg.Gstyle(s[0])
 	}
 	for ix := x; ix <= x+w; ix += n {
-		svg.Line(ix, y, ix, y+h,attrs)
+		svg.Line(ix, y, ix, y+h, attrs)
 	}
 
 	for iy := y; iy <= y+h; iy += n {
-		svg.Line(x, iy, x+w, iy,attrs)
+		svg.Line(x, iy, x+w, iy, attrs)
 	}
 	if len(s) > 0 {
 		svg.Gend()
@@ -1013,7 +1013,9 @@ func islink(link string) bool {
 }
 
 // group returns a group element
-func group(tag string, value string,attrs string) string { return fmt.Sprintf(`<g %s %s="%s">`,attrs, tag, value) }
+func group(tag string, value string, attrs string) string {
+	return fmt.Sprintf(`<g %s %s="%s">`, attrs, tag, value)
+}
 
 // scale return the scale string for the transform
 func scale(n float64) string { return fmt.Sprintf(`scale(%g)`, n) }
