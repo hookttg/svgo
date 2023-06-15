@@ -162,11 +162,11 @@ func (svg *SVG) Style(scriptype string, data ...string) {
 
 // Gstyle begins a group, with the specified style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#GElement
-func (svg *SVG) Gstyle(s string) { svg.println(group("style", s)) }
+func (svg *SVG) Gstyle(attrs string, s string) { svg.println(group("style", attrs, s)) }
 
 // Gtransform begins a group, with the specified transform
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
-func (svg *SVG) Gtransform(s string) { svg.println(group("transform", s)) }
+func (svg *SVG) Gtransform(attrs string, s string) { svg.println(group("transform", attrs, s)) }
 
 // Translate begins coordinate translation, end with Gend()
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
@@ -455,7 +455,7 @@ func (svg *SVG) Textpath(t string, pathid string, attrs string, s ...string) {
 
 // Textlines places a series of lines of text starting at x,y, at the specified size, fill, and alignment.
 // Each line is spaced according to the spacing argument
-func (svg *SVG) Textlines(x, y int, s []string, size, spacing int, fill, align string) {
+func (svg *SVG) Textlines(x, y int, s []string, size, spacing int, fill, align string, attrs string) {
 	svg.Gstyle(fmt.Sprintf("font-size:%dpx;fill:%s;text-anchor:%s", size, fill, align))
 	for _, t := range s {
 		svg.Text(x, y, attrs, t)
@@ -485,7 +485,7 @@ func (svg *SVG) RGBA(r int, g int, b int, a float64) string {
 func (svg *SVG) LinearGradient(id string, x1, y1, x2, y2 uint8, sc []Offcolor, attrs string) {
 	svg.printf("<linearGradient id=\"%s\" %s x1=\"%d%%\" y1=\"%d%%\" x2=\"%d%%\" y2=\"%d%%\">\n",
 		id, attrs, pct(x1), pct(y1), pct(x2), pct(y2))
-	svg.stopcolor(sc)
+	svg.stopcolor(sc, attrs)
 	svg.println("</linearGradient>")
 }
 
@@ -793,8 +793,8 @@ func (svg *SVG) FeTurbulence(fs Filterspec, ftype string, bfx, bfy float64, octa
 // Filter Effects convenience functions, modeled after CSS versions
 
 // Blur emulates the CSS blur filter
-func (svg *SVG) Blur(p float64) {
-	svg.FeGaussianBlur(Filterspec{}, p, p)
+func (svg *SVG) Blur(p float64, attrs string) {
+	svg.FeGaussianBlur(Filterspec{}, p, p, attrs)
 }
 
 // Brightness emulates the CSS brightness filter
@@ -815,13 +815,13 @@ func (svg *SVG) Brightness(p float64) {
 //}
 
 // Grayscale eumulates the CSS grayscale filter
-func (svg *SVG) Grayscale() {
-	svg.FeColorMatrixSaturate(Filterspec{}, 0)
+func (svg *SVG) Grayscale(attrs string) {
+	svg.FeColorMatrixSaturate(Filterspec{}, 0, attrs)
 }
 
 // HueRotate eumulates the CSS huerotate filter
-func (svg *SVG) HueRotate(a float64) {
-	svg.FeColorMatrixHue(Filterspec{}, a)
+func (svg *SVG) HueRotate(a float64, attrs string) {
+	svg.FeColorMatrixHue(Filterspec{}, a, attrs)
 }
 
 // Invert eumulates the CSS invert filter
@@ -834,19 +834,19 @@ func (svg *SVG) Invert() {
 }
 
 // Saturate eumulates the CSS saturate filter
-func (svg *SVG) Saturate(p float64) {
-	svg.FeColorMatrixSaturate(Filterspec{}, p)
+func (svg *SVG) Saturate(p float64, attrs string) {
+	svg.FeColorMatrixSaturate(Filterspec{}, p, attrs)
 }
 
 // Sepia applies a sepia tone, emulating the CSS sepia filter
-func (svg *SVG) Sepia() {
+func (svg *SVG) Sepia(attrs string) {
 	var sepiamatrix = [20]float64{
 		0.280, 0.450, 0.05, 0, 0,
 		0.140, 0.390, 0.04, 0, 0,
 		0.080, 0.280, 0.03, 0, 0,
 		0, 0, 0, 1, 0,
 	}
-	svg.FeColorMatrix(Filterspec{}, sepiamatrix)
+	svg.FeColorMatrix(Filterspec{}, sepiamatrix, attrs)
 }
 
 // Animation
