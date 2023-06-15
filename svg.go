@@ -901,7 +901,7 @@ func (svg *SVG) AnimateSkewY(link string, from, to, duration float64, repeat int
 func (svg *SVG) Grid(x int, y int, w int, h int, n int, attrs string, s ...string) {
 
 	if len(s) > 0 {
-		svg.Gstyle(s[0])
+		svg.Gstyle(attrs, s[0])
 	}
 	for ix := x; ix <= x+w; ix += n {
 		svg.Line(ix, y, ix, y+h, attrs)
